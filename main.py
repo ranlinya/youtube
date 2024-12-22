@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
@@ -6,10 +6,14 @@ app = Flask(__name__)
 def home():
     return 'Hello World!'
 
-# 确保有这个处理404的路由
 @app.errorhandler(404)
 def not_found(e):
     return "404 - 页面未找到", 404
 
-# vercel需要这个
-app = app
+@app.errorhandler(500)
+def server_error(e):
+    return "500 - 服务器错误", 500
+
+# 正确的导出方式
+if __name__ == '__main__':
+    app.run()
